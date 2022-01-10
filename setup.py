@@ -15,6 +15,6 @@ setup(
     include_package_data=True,
     install_requires=["flask"],
     extra_requires={
-        "dev": read("requirements-dev.txt")
+        "dev": read("requirements-dev.txt"),
     }
 )
