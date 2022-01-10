@@ -1,40 +1,30 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+clean:
+	@find ./ -name '*.pyc' -exec rm -f {} \;
+	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
+	@find ./ -name '*~' -exec rm -f {} \;
+	rm -rf .cache
+	rm -rf build
+	rm -rf dist
+	rm -rf *.egg-info
+	rm -rf htmlcov
+	rm -rf .tox/
+	rm -rf docs/_build
+	pip install -e .[dev] --upgrade --no-cache
 
-name: Python application
-defaults:
-  run:
-    shell: bash
-    working-directory: ./delivery
+install:
+	pip install -e .['dev']
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
-jobs:
-  build:
+init_db:
+	FLASK_APP=delivery/app.py flask create-db
+	FLASK_APP=delivery/app.py flask db upgrade
 
-    runs-on: ubuntu-latest
+test:
+	FLASK_ENV=test pytest tests/ -v --cov=delivery
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-       make install
+format:
+	isort **/*.py
+	black -l 79 **/*.py
 
-    - name: Set a dummy secret key
-      run: echo "::set-env name=FLASK_SECRET_KEY::avocodes01"
-
-    - name: Database Migrations
-      run: |
-       make init_db
-       
-    - name: Run tests
-      run: |
-       make test
+run:
+	FLASK_APP=delivery/app.py FLASK_ENV=development flask run
