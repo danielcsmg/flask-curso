@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% import "macros/list_item.html" as list_item %}
+
+{% block main %}
+<div class="columns">
+  {{ list_item.cards(4) }}
+</div>
+{% endblock main %}

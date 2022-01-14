@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home do Delivery</title>
-</head>
-<body>
-    {{nome}}
-    
-</body>
-</html>
+{% extends "base.html" %}
+{% import "macros/list_item.html" as list_item %}
+
+{% block top %}
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      {{ site_name }}
+    </p>
+    <p class="subtitle">
+      {{ site_subtitle }}
+    </p>
+  </div>
+</section>
+{% endblock top %}
+
+{% block main %}
+<div class="columns">
+  {{ list_item.cards(5) }}
+</div>
+{% endblock main %}
