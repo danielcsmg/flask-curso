@@ -135,3 +135,4 @@ delivery/.secrets.toml
 
 /delivery/vertabelo.py
 /delivery/db.xml
+*.secrets.*
